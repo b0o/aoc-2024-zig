@@ -105,11 +105,17 @@ const MulMachine = struct {
             ',' => if (self.state == .@"mul(x") .@"mul(x," else .init,
             '0'...'9' => switch (self.state) {
                 .@"mul(", .@"mul(x" => blk: {
+                    if (self.state == .@"mul(") {
+                        self.x_len = 0;
+                    }
                     self.x[self.x_len] = char;
                     self.x_len += 1;
                     break :blk .@"mul(x";
                 },
                 .@"mul(x,", .@"mul(x,y" => blk: {
+                    if (self.state == .@"mul(x,") {
+                        self.y_len = 0;
+                    }
                     self.y[self.y_len] = char;
                     self.y_len += 1;
                     break :blk .@"mul(x,y";
@@ -160,11 +166,6 @@ const MulMachine = struct {
             else => state,
         };
 
-        if (state == .init) {
-            self.x_len = 0;
-            self.y_len = 0;
-        }
-
         self.state = state;
     }
 };
@@ -177,6 +178,7 @@ fn eval(buf: []const u8) u32 {
 
 test {
     try std.testing.expectEqual(48, eval("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"));
+    try std.testing.expectEqual(48, eval("xmul(10,2mul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"));
 }
 
 pub fn main() !void {
