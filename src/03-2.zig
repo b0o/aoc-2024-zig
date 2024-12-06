@@ -169,13 +169,6 @@ const MulMachine = struct {
     }
 };
 
-pub fn main() !void {
-    const stdin = std.io.getStdIn().reader();
-    var mach = MulMachine{};
-    while (stdin.readByte() catch null) |char| mach.read(char);
-    std.debug.print("Sum: {}\n", .{mach.sum});
-}
-
 fn eval(buf: []const u8) u32 {
     var mach = MulMachine{};
     for (buf) |char| mach.read(char);
@@ -184,4 +177,11 @@ fn eval(buf: []const u8) u32 {
 
 test {
     try std.testing.expectEqual(48, eval("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"));
+}
+
+pub fn main() !void {
+    const stdin = std.io.getStdIn().reader();
+    var mach = MulMachine{};
+    while (stdin.readByte() catch null) |char| mach.read(char);
+    std.debug.print("Sum: {}\n", .{mach.sum});
 }
