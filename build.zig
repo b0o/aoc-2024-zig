@@ -11,6 +11,8 @@ const puzzles: []const Puzzle = &.{
     .{ .name = "02-2" },
     .{ .name = "03-1" },
     .{ .name = "03-2" },
+    .{ .name = "04-1" },
+    .{ .name = "04-2" },
 };
 
 pub fn build(b: *std.Build) void {
